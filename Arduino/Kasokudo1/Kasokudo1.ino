@@ -79,9 +79,9 @@ void loop() {
 
   // 加速度、角速度の読み出し
   // accel_t_gyroは読み出した値を保存する構造体、その後ろの引数は取り出すバイト数
-  error = MPU6050_read(MPU6050_ACCEL_XOUT_H, (uint8_t *)&accel_t_gyro, sizeof(accel_t_gyro));
-  Serial.print(error, DEC);
-  Serial.print("\t");
+//  error = MPU6050_read(MPU6050_ACCEL_XOUT_H, (uint8_t *)&accel_t_gyro, sizeof(accel_t_gyro));
+//  Serial.print(error, DEC);
+//  Serial.print("\t");
 
   // 取得できるデータはビッグエンディアンなので上位バイトと下位バイトの入れ替え（AVRはリトルエンディアン）
   uint8_t swap;
@@ -95,35 +95,35 @@ void loop() {
   SWAP (accel_t_gyro.reg.z_gyro_h, accel_t_gyro.reg.z_gyro_l);
 
   // 温度の計算。式はレジスタマップに載ってます。この式おかしいかも…。
-  dT = ( (float) accel_t_gyro.value.temperature + 12412.0) / 340.0;
-  Serial.print(dT, 1);
-  Serial.print("\t");
+//  dT = ( (float) accel_t_gyro.value.temperature + 12412.0) / 340.0;
+//  Serial.print(dT, 1);
+//  Serial.print("\t");
 
   // 取得した加速度値を分解能で割って加速度(G)に変換する
   float acc_x = accel_t_gyro.value.x_accel / 16384.0; //FS_SEL_0 16,384 LSB / g
   float acc_y = accel_t_gyro.value.y_accel / 16384.0;
   float acc_z = accel_t_gyro.value.z_accel / 16384.0;
+//
+//  Serial.print(acc_x, 2);
+//  Serial.print("\t");
+//  Serial.print(acc_y, 2);
+//  Serial.print("\t");
+//  Serial.print(acc_z, 2);
+//  Serial.print("\t");
 
-  Serial.print(acc_x, 2);
-  Serial.print("\t");
-  Serial.print(acc_y, 2);
-  Serial.print("\t");
-  Serial.print(acc_z, 2);
-  Serial.print("\t");
+  // 加速度からセンサ対地角を求める 
+//  float acc_angle_x = atan2(acc_x, acc_z)* 360 / 2.0 / PI;
+//  float acc_angle_y = atan2(acc_y, acc_z) * 360 / 2.0 / PI;
+//  float acc_angle_z = atan2(acc_x, acc_y) * 360 / 2.0 / PI;
+//
+//  Serial.print(acc_angle_x, 2);
+//  Serial.print("\t");
+//  Serial.print(acc_angle_y, 2);
+//  Serial.print("\t");
+//  Serial.print(acc_angle_z, 2);
+//  Serial.print("\t");
 
-  // 加速度からセンサ対地角を求める
-  float acc_angle_x = atan2(acc_x, acc_z) * 360 / 2.0 / PI;
-  float acc_angle_y = atan2(acc_y, acc_z) * 360 / 2.0 / PI;
-  float acc_angle_z = atan2(acc_x, acc_y) * 360 / 2.0 / PI;
-
-  Serial.print(acc_angle_x, 2);
-  Serial.print("\t");
-  Serial.print(acc_angle_y, 2);
-  Serial.print("\t");
-  Serial.print(acc_angle_z, 2);
-  Serial.print("\t");
-
-  // 取得した角速度値を分解能で割って角速度(degrees per sec)に変換する
+//  // 取得した角速度値を分解能で割って角速度(degrees per sec)に変換する
   float gyro_x = accel_t_gyro.value.x_gyro / 131.0;//FS_SEL_0 131 LSB / (°/s)
   float gyro_y = accel_t_gyro.value.y_gyro / 131.0;
   float gyro_z = accel_t_gyro.value.z_gyro / 131.0;
