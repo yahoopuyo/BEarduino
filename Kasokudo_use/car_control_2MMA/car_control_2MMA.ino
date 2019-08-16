@@ -48,19 +48,19 @@
  const int speed_var_rot_pat_8 = 180;
  const int speed_var_rot_pat_0 = 180;
 
- const int move_time_rot_pat_1 = 100;
- const int move_time_rot_pat_2 = 100;
- const int move_time_rot_pat_3 = 100;
- const int move_time_rot_pat_4 = 100;
- const int move_time_rot_pat_5 = 100;
- const int move_time_rot_pat_6 = 100;
- const int move_time_rot_pat_7 = 100;
- const int move_time_rot_pat_8 = 100;
- const int move_time_rot_pat_0 = 400;
+ const int move_time_rot_pat_1 = 500;
+ const int move_time_rot_pat_2 = 500;
+ const int move_time_rot_pat_3 = 500;
+ const int move_time_rot_pat_4 = 500;
+ const int move_time_rot_pat_5 = 500;
+ const int move_time_rot_pat_6 = 500;
+ const int move_time_rot_pat_7 = 500;
+ const int move_time_rot_pat_8 = 500;
+ const int move_time_rot_pat_0 = 1000;
 
 
 #define ACmeter_count 3  //加速度センサのtmp値を何回の平均値とするか
-#define ACmeter_buf_count 5 //過去何回のtmp値を保存し、その平均をとるか
+#define ACmeter_buf_count 10 //過去何回のtmp値を保存し、その平均をとるか
 #define gForceX_threshold 0.02
 #define gForceY_threshold 0.02
 #define gForceZ_threshold 0.02
@@ -302,10 +302,13 @@ void do_ACmeter_move(){
   }
   if (flag == 1) {
     //Serial.print("ここ");
-    mean_gForceX = xaverage();
-    mean_gForceY = yaverage();
-    mean_gForceZ = zaverage();
+//    mean_gForceX = xaverage();
+//    mean_gForceY = yaverage();
+//    mean_gForceZ = zaverage();
 
+    mean_gForceX = -0.82;
+    mean_gForceY = 0;
+    mean_gForceZ = 0.51;
     
     Serial.print("mean_gForceX = ");
     Serial.print(mean_gForceX);
@@ -314,7 +317,7 @@ void do_ACmeter_move(){
     Serial.print("    mean_gForceZ = ");
     Serial.print(mean_gForceZ);
     Serial.print("  \n");
-
+    
     
   }
 
