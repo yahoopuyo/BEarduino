@@ -38,14 +38,14 @@
  #define IR_turnsmallleft 0x00FFB04F       //code from IR controller "#" button
  #define SPEED 180       //speed of car
  #define DelayTime 500       //speed of car
- const int speed_var_rot_pat_1 = 150;
- const int speed_var_rot_pat_2 = 150;
- const int speed_var_rot_pat_3 = 150;
- const int speed_var_rot_pat_4 = 150;
- const int speed_var_rot_pat_5 = 150;
- const int speed_var_rot_pat_6 = 150;
- const int speed_var_rot_pat_7 = 150;
- const int speed_var_rot_pat_8 = 150;
+ const int speed_var_rot_pat_1 = 180;
+ const int speed_var_rot_pat_2 = 180;
+ const int speed_var_rot_pat_3 = 180;
+ const int speed_var_rot_pat_4 = 180;
+ const int speed_var_rot_pat_5 = 180;
+ const int speed_var_rot_pat_6 = 180;
+ const int speed_var_rot_pat_7 = 180;
+ const int speed_var_rot_pat_8 = 180;
  const int speed_var_rot_pat_0 = 500;
 
  const int move_time_rot_pat_1 = 200;
@@ -61,7 +61,7 @@
 
 
 //往復のための変数
-#define width 17
+#define width 10
 
 #define height 10
 int forward_count;
@@ -71,7 +71,7 @@ int down_count;
 #define ACmeter_count 3  //加速度センサのtmp値を何回の平均値とするか
 #define ACmeter_buf_count 5 //過去何回のtmp値を保存し、その平均をとるか
 #define gForceX_threshold 0.01
-#define gForceY_threshold 0.011
+#define gForceY_threshold 0.02
 #define gForceZ_threshold 0.02
  
 enum DN
@@ -311,7 +311,7 @@ void do_ACmeter_move(){
   }
   if (flag == 1) {
     //Serial.print("ここ");
-    mean_gForceX = -0.92;
+    mean_gForceX = 0;
     mean_gForceY = 0;
     mean_gForceZ = 0;
 
@@ -340,7 +340,7 @@ void do_ACmeter_move(){
 
       
   //先の変化から十分なデータ数を取ってから(cntがACmeter_buf_count分たまったら）、また変化したら、って意味の二重if文。
-  if (d_gForceY>gForceY_threshold) { 
+  if (abs(d_gForceY)>gForceY_threshold) { 
       if (cnt>=ACmeter_buf_count) {
 
 
@@ -368,14 +368,15 @@ void do_ACmeter_move(){
     //rot_pat = 0;
     }
    }
-
+  
+  d_gForceY = d_gForceY * 1.2;
   switch (rot_pat) {
     case 1:
       Serial.print("rot_pat =");
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Right(speed_var_rot_pat_1); //回転スピードの設定
-      movement(move_time_rot_pat_1); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO RIGHT\n");
       break;
     case 2:
@@ -383,7 +384,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Right(speed_var_rot_pat_2); //回転スピードの設定
-      movement(move_time_rot_pat_2); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO RIGHT\n");
       break;    
     case 3:
@@ -391,7 +392,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Right(speed_var_rot_pat_3); //回転スピードの設定
-      movement(move_time_rot_pat_3); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO RIGHT\n");
       break;
     case 4:
@@ -399,7 +400,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Right(speed_var_rot_pat_4); //回転スピードの設定
-      movement(move_time_rot_pat_4); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO RIGHT\n");
       break;
     case 5:
@@ -407,7 +408,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Left(speed_var_rot_pat_5); //回転スピードの設定
-      movement(move_time_rot_pat_5); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO LEFT\n");
       break;
     case 6:
@@ -415,7 +416,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Left(speed_var_rot_pat_6); //回転スピードの設定
-      movement(move_time_rot_pat_6); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO LEFT\n");
       break;
     case 7:
@@ -423,7 +424,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Left(speed_var_rot_pat_7); //回転スピードの設定
-      movement(move_time_rot_pat_7); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO LEFT\n");
       break;
     case 8:
@@ -431,7 +432,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Left(speed_var_rot_pat_8); //回転スピードの設定
-      movement(move_time_rot_pat_8); //移動時間の設定
+      movement(1000 * abs(d_gForceY)); //移動時間の設定
       Serial.print("  GO LEFT\n");
       break;
     case 0:
@@ -439,7 +440,7 @@ void do_ACmeter_move(){
       Serial.print(rot_pat);
       Serial.print("\n");
       go_Advance(speed_var_rot_pat_0);
-      delay(50);
+      delay(300);
 //      movement(move_time_rot_pat_0); //移動時間の設定   
       Serial.print("GO ADVANCE\n");
       forward_count++;
@@ -541,9 +542,9 @@ void loop(){
   forward_count = 0;
   while(forward_count < width) do_ACmeter_move();
   go_Right(180); //回転スピードの設定
-  movement(1400); //移動時間の設定
+  movement(1600); //移動時間の設定
   forward_count = 0;
   while(forward_count < width) do_ACmeter_move();
   go_Left(180); //回転スピードの設定
-  movement(1400); //移動時間の設定
+  movement(1600); //移動時間の設定
   }
